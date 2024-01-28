@@ -58,6 +58,9 @@ export default function Home() {
     setUserName(localStorage.getItem("name"));
   }
   console.log(jobDetails)
+  const handleAddJob = ()=>{
+    navigate("/job-post")
+  }
 
 
   return (
@@ -101,6 +104,8 @@ export default function Home() {
           </div>
           
           <button className={styles.clear} onClick={clearSkills}>Clear</button>
+          {userName ? <button className={styles.newJobBtn} onClick={handleAddJob}>+ Add Job</button> : <></>}
+          
           </div>
         </div>
         <div className={styles.jobDisplay}>

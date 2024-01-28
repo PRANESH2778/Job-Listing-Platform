@@ -9,18 +9,18 @@ export default function JobPost() {
   const {state} = useLocation();
   const [isEditExistingJobPost] = useState(false || state?.edit); 
   const [newJob,setNewJob] = useState({
-    companyName:"" || state.data.companyName,
-    logoUrl:"" || state.data.logoUrl,
-    jobPosition:"" || state.data.jobPosition,
-    monthlySalary:"" || state.data.monthlySalary,
-    jobType:"" || state.data.jobType,
-    RemoteOffice:"" || state.data.RemoteOffice,
-    headCount:"" || state.data.headCount,
-    location:"" || state.data.location,
-    description:"" || state.data.description,
-    about:"" || state.data.about,
-    skills:"" || state.data.skills.toString(),
-    information:"" || state.data.information
+    companyName:"" || state?.data.companyName,
+    logoUrl:"" || state?.data.logoUrl,
+    jobPosition:"" || state?.data.jobPosition,
+    monthlySalary:"" || state?.data.monthlySalary,
+    jobType:"" || state?.data.jobType,
+    RemoteOffice:"" || state?.data.RemoteOffice,
+    headCount:"" || state?.data.headCount,
+    location:"" || state?.data.location,
+    description:"" || state?.data.description,
+    about:"" || state?.data.about,
+    skills:"" || state?.data.skills.toString(),
+    information:"" || state?.data.information
   })
   const handleChange = (e)=>{
     setNewJob({...newJob,[e.target.name]:e.target.value})

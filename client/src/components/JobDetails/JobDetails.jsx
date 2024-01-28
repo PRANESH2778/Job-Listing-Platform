@@ -11,9 +11,11 @@ import shape3 from '../../assets/images/shape3.png'
 
 export default function JobDetails() {
   const [data,setData] = useState(true)
+  const [userName,setUserName] = useState("")
   const navigate = useNavigate()
   useEffect(()=>{
     getJobDetailsById();
+    userLogged()
   },[])
   const GoToLogin = ()=>{
     navigate('/login')
@@ -30,8 +32,11 @@ export default function JobDetails() {
     setData(response)
   }
   const stringSkills = data.skills ? data.skills.join(", ") : '';
-  const [userName,setUserName] = useState("pranesh")
-  const uname = localStorage.getItem("name")
+  const userLogged = ()=>{
+    setUserName(localStorage.getItem("name"));
+  }
+
+
 
   return (
     <>
