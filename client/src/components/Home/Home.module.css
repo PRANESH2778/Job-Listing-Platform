@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css?family=DM Sans');
+.main{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+    font-family: DM Sans;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+
+.top{
+    width: 100vw;
+    height: 18vh;
+    background-color: #ED5353;
+    border-radius: 0 0 4rem 4rem;
+    position: relative;
+}
+.jobFinder{
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+    margin-top: 3rem;
+    margin-left: 6rem;
+}
+.shape1{
+    position: absolute;
+    bottom: 0rem;
+}
+.shape2{
+    position: absolute;
+    bottom: 2rem;
+    left: 34rem;
+}
+.shape3{
+    position: absolute;
+    right: 5rem;
+    height: 20vh;
+    width: 20vw;
+    bottom:0rem;
+}
+.top button{
+    position: absolute;
+    width: 7vw;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #ED5353;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+}
+.top button:hover{
+    background-color: white;
+    border: 3px solid #ED5353;
+    color: #ED5353;
+}
+.loginBtn{
+    right: 14rem;
+    top: 2rem;
+}
+.RegBtn{
+    right: 6rem;
+    top: 2rem;
+}
+.logOut{
+    position: absolute;
+    right: 20rem;
+    top: 3rem;
+    color: white;
+    cursor: pointer;
+}
+.name{
+    position: absolute;
+    right: 12rem;
+    top: 3rem;
+    color: white;
+}
+.down{
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: DM Sans;
+}
+.down p,h3{
+    margin: 0;
+}
+.filter{
+    height: 25vh;
+    width: 70vw;
+    margin-top: 20px;
+    box-shadow: 0px 0px 22px 4px #FF202040;
+}
+.filter input{
+    height: 5vh;
+    width: 55vw;
+    margin-top: 20px;
+    margin-left: 6rem;
+    border-radius: 9px;
+    font-size: 20px;
+    color: #9C9C9C;
+    border: 1.8px solid #E3E3E3;
+    padding-left: 45px;
+}
+.filter img{
+    position: absolute;
+    left: 21rem;
+    top: 10.8rem;
+}
+.searchDiv{
+    width:70vw;
+    height: 15vh;
+    display: flex;
+
+}
+.filter select{
+    width: 10vw;
+    height: 5vh;
+    border-radius: 5px;
+    margin-top:1rem;
+    margin-left: 6rem;
+    border: 2px solid #C2C2C2;
+    font-size: 15px;
+    outline: none;
+    color: #525252;
+    padding-left: 25px;
+    font-family: DM Sans;
+}
+.skillDisplay{
+    height: 15vh;
+    width: 40vw;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-family: DM Sans;
+    color: black;
+}
+.skillItem{
+    width: 8vw;
+    height: 5vh;
+    border: 2px solid #C2C2C2;
+    background-color: #FFEEEE;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.remove{
+    width: 2.5vw;
+    height: 5vh;
+    background-color: #FF6B6B;
+    color: white;
+    border-color: #FF6B6B;
+    font-size: 25px;
+    cursor: pointer;
+}
+.clear{
+    width: 9vw;
+    height: 5vh;
+    border-radius: 5px;
+    margin-top: 8px;
+    border:transparent;
+    color: #ED5353;
+    background-color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    right: 20rem;
+}
+.jobDisplay{
+    height: 48vh;
+    width: 70vw;
+    margin-top: 10px;
+    box-shadow: 0px 0px 22px 4px #FF202040;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.jobList{
+    height: 18vh;
+    width: 70vw;
+    margin-top: 20px;
+    box-shadow: 0px 0px 22px 4px #FF202040;
+    display: flex;
+}
+.jobDetail1{
+    height: 8rem;
+    width: 20rem;
+}
+.heading{
+    margin-top: 20px;
+    margin-left: 0;
+    color: #000000;
+}
+
+.jobList p{
+    margin-top: 10px;
+}
+.flag{
+    position: absolute;
+    bottom: 16.8rem;
+}
+.skillSet{
+    width: 29vw;
+    height: 12vh;
+    margin-left: 5rem;
+    display: flex;
+}
+.jobSkills{
+    width: 7vw;
+    height: 4vh;
+    margin-top: 1rem;
+    background-color: #FFEEEE;
+    border: 1px solid #FFEEEE;
+    color: black;
+    font-weight: 600;
+    text-align: center;
+    margin-left: 10px;
+    font-family: DM Sans;
+    font-size: 15px;
+}
+.jobDisplay button{
+    width: 9vw;
+    height: 5vh;
+    border-radius: 5px;
+    border: 2px solid #C2C2C2;
+    color: #C2C2C2;
+    background-color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+}
+.jobDisplay button:hover{
+    background-color: #ED5353;
+    border: 5px solid #ED5353;
+    color: white;
+}
+.buttons{
+    margin-left: 14rem;
+    margin-bottom: 1.5rem;
+}
+.editBtn{
+    margin-left: 0rem;
+}
+.addBtn{
+   margin-left: 1rem;
+}
+.ViewBtn{
+    margin-left: 24rem;
+    margin-bottom: 2rem;
+}
