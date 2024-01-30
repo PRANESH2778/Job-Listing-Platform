@@ -69,7 +69,7 @@ router.post('/login',async (req,res)=>{
         const token = await jwt.sign( 
             {userId:userDetails._id},
             process.env.JWT_SECRET);
-        res.json({message:"logged successfully", token: token,name:userDetails.name,success:true})
+        res.json({message:"logged In successfully", token: token,name:userDetails.name,success:true})
     }catch(err){
             res.json({message:"error login user"})
             console.log(err) 

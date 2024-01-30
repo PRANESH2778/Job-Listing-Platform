@@ -35,7 +35,14 @@ export default function JobDetails() {
   const userLogged = ()=>{
     setUserName(localStorage.getItem("name"));
   }
-
+  const LogOut = ()=>{
+    const removeItem = ["name","token"]
+    removeItem.forEach((item)=>{
+      localStorage.removeItem(item)
+    })
+    
+    navigate("/")
+  }
 
 
   return (
@@ -49,7 +56,7 @@ export default function JobDetails() {
           <img src={shape1} className={styles.shape1}/>
           <img src={shape2} className={styles.shape2}/>
           <img src={shape3}className={styles.shape3}/>
-          {userName ? <div><p className={styles.logOut}>Logout</p><p className={styles.name}>Hello {userName}</p><img src={recruiter} height="30px" width="30px" style={{position:"absolute",right:"10rem",top:"1rem"}}/></div> : 
+          {userName ? <div><p className={styles.logOut} onClick={LogOut}>Logout</p><p className={styles.name}>Hello {userName}</p><img src={recruiter} height="30px" width="30px" style={{position:"absolute",right:"10rem",top:"0.8rem"}}/></div> : 
           <div>
             <button className={styles.loginBtn} onClick={GoToLogin}>Login</button>
             <button className={styles.RegBtn} onClick={GoToRegister}>Register</button>

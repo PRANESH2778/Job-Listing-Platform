@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { viewAllJobs } from '../../apis/job';
+import { getAllJobs } from '../../apis/job';
+//import { viewAllJobs } from '../../apis/job';
+import { DEFAULT_SKILLS } from '../../utils/constant';
 import styles from './Home.module.css';
 import recruiter from '../../assets/images/recruiter.png'
 import image3 from '../../assets/images/search.png';
@@ -10,20 +12,36 @@ import Head from '../../assets/images/members.png'
 import shape1 from '../../assets/images/shape1.png'
 import shape2 from '../../assets/images/shape2.png'
 import shape3 from '../../assets/images/shape3.png'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
   const [skills, setSkills] = useState([]);
   const [userName,setUserName] = useState(false)
+  const [search,setSearch] = useState()
   const [jobDetails,setJobDetails] = useState([]);
   const [allSkills,setAllSkills] = useState([]);
   const navigate = useNavigate();
   useEffect(()=>{
-    getAllJobs();
+    fetchAllJobs();
     userLogged();
- },[])
+ },[skills])
+  const handleSearch = (e)=>{
+  setSearch(e.target.value)
+  }
+  const handleKeyDown = (e)=>{
+    if(!search?.trim()){
+      return;
+    }
+    if(e.keyCode === 13){
+      fetchAllJobs();
+    }
+  }
   const selectSkills = (e) => {
-    e.preventDefault();
-    const selectedSkill = e.target.value;
-    setSkills([...skills, selectedSkill]);
+    if(!e.target.value) return;
+    const selectedSkill = skills.filter((skill)=>skill === e.target.value);
+    if(!selectedSkill.length){
+      setSkills([...skills, e.target.value]);
+    }
     console.log(skills);
   };
 
@@ -32,8 +50,6 @@ export default function Home() {
     updatedSkills.splice(index, 1);
     setSkills(updatedSkills);
   };
-
-
   const clearSkills = ()=>{
     setSkills([]);
   }
@@ -43,17 +59,18 @@ export default function Home() {
   const GoToRegister = ()=>{
     navigate('/register')
   }
-  const getAllJobs = async()=>{
-    try{
-      const result = await viewAllJobs();
-      console.log(result.data)
-      setJobDetails(result.data);
+  const fetchAllJobs = async()=>{
+      const reqPayload = {
+        skills:skills.join(","),
+        jobPosition:search?.trim(),
+      }
+      console.log(reqPayload)
+      const result = await getAllJobs(reqPayload);
+      console.log(result)
+      setJobDetails(result);
       //console.log(jobDetails)
-
-    }catch(error){
-      console.log(error)
     }
-  }
+
   const userLogged = ()=>{
     setUserName(localStorage.getItem("name"));
   }
@@ -61,7 +78,17 @@ export default function Home() {
   const handleAddJob = ()=>{
     navigate("/job-post")
   }
-
+  const LogOut = ()=>{
+    const removeItem = ["name","token"]
+    removeItem.forEach((item)=>{
+      localStorage.removeItem(item)
+    })
+    toast.success("Logged Out Successfully!")
+    setTimeout(() => {
+      location.reload()
+    }, 2000);
+   
+ }
 
   return (
     <div className={styles.main}>
@@ -70,7 +97,7 @@ export default function Home() {
         <img src={shape1} className={styles.shape1}/>
         <img src={shape2} className={styles.shape2}/>
         <img src={shape3}className={styles.shape3}/>
-        {userName ? <div><p className={styles.logOut}>Logout</p><p className={styles.name}>Hello {userName}</p><img src={recruiter} height="30px" width="30px" style={{position:"absolute",right:"10rem",top:"2.5rem"}}/></div> : 
+        {userName ? <div><p className={styles.logOut} onClick={LogOut}>Logout</p><p className={styles.name}>Hello {userName}</p><img src={recruiter} height="30px" width="30px" style={{position:"absolute",right:"10rem",top:"2.5rem"}}/></div> : 
           <div>
             <button className={styles.loginBtn} onClick={GoToLogin}>Login</button>
             <button className={styles.RegBtn} onClick={GoToRegister}>Register</button>
@@ -79,20 +106,14 @@ export default function Home() {
       </div>
       <div className={styles.down}>
         <div className={styles.filter}>
-          <input type='text' placeholder='Type any job title' />
+          <input type='text' placeholder='Type any job title' name='search' onChange={handleSearch} onKeyDown={handleKeyDown}/>
           <img src={image3} alt='Search Icon' />
           <div className={styles.searchDiv}>
           <select onChange={selectSkills}>
-            <option>Skills</option>
-            <option value='HTML'>HTML</option>
-            <option value='CSS'>CSS</option>
-            <option value='JavaScript'>JavaScript</option>
-            <option value='ReactJs'>ReactJs</option>
-            <option value='MongoDB'>MongoDB</option>
-            <option value='C'>C</option>
-            <option value='C++'>C++</option>
-            <option value='Java'>Java</option>
-            <option value='SQL'>SQL</option>
+            <option value="">Skills</option>
+            {DEFAULT_SKILLS.map((skill)=>(
+              <option key = {skill} value={skill}>{skill}</option>
+            ))}
           </select>
           <div className={styles.skillDisplay}>
             {skills.map((skill, index) => (
@@ -133,6 +154,8 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <ToastContainer/>
+
     </div>
   );
 }

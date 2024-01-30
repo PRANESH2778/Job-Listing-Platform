@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styles from './Login.module.css'
 import { loginUser } from '../../apis/auth'
+import {toast,ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import image1 from '../../assets/images/RegisterImage.png'
 import { useNavigate } from 'react-router-dom'
 export default function Login() {
@@ -21,13 +23,17 @@ export default function Login() {
     }
     const response = await loginUser({...loginData})
     console.log(response.data)
-    console.log(response.data.token)
-    console.log(response.data.name)
-    navigate('/')
+    localStorage.setItem("name",response.data.name)
+    localStorage.setItem("token",response.data.token)
+    setTimeout(() => {
+      navigate('/')
+    }, 2000);
+    
   }
   const redirectToSignUp = ()=>{
     navigate("/register")
   }
+
   return (
     <div className={styles.body}>
       <div className={styles.left}> 
@@ -42,6 +48,7 @@ export default function Login() {
       </div>
       <div className={styles.right}>
         <img src={image1} style={{height:"100vh",width:"40vw"}}/>
+        <ToastContainer/>
         <p>Your Personal Job Finder</p>
       </div>
     </div>

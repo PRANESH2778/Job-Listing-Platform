@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import styles from './JobPost.module.css'
+import { useNavigate } from 'react-router-dom'
 import image2 from '../../assets/images/Bg2.png'
+import {toast,ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from 'react-router-dom'
 import { AddNewJob, UpdateJobPost } from '../../apis/job'
 import { json } from 'react-router-dom'
 import axios from 'axios'
 export default function JobPost() {
+  const navigate = useNavigate();
   const {state} = useLocation();
   const [isEditExistingJobPost] = useState(false || state?.edit); 
   const [newJob,setNewJob] = useState({
@@ -36,11 +40,22 @@ export default function JobPost() {
       if(!state.id) return;
       const response = await UpdateJobPost(state.id,{...newJob,skills: newJob.skills.split(",")})
       console.log(response)
+      setTimeout(() => {
+        navigate(`/job-details/${state.id}`)
+      }, 2000);
+      
     }
     else{
     const response = await AddNewJob({...newJob,skills: newJob.skills.split(",")})
     console.log(response.data)
+    setTimeout(() => {
+      location.reload()
+    }, 1500);
+    
     }
+  }
+  const GoToHome = ()=>{
+    navigate("/")
   }
   return (
     <div className={styles.body}>
@@ -72,7 +87,7 @@ export default function JobPost() {
           </div>
           <label>Skills Required</label><input type='text' placeholder='Enter the must have skills' name='skills' value={newJob?.skills} onChange={handleChange}/><br/>
           <label>Information</label><input type='text' placeholder='Enter the additional information' name='information' value={newJob?.information} onChange={handleChange}/><br/>
-          <button className={styles.cancel}>Cancel</button>
+          <button className={styles.cancel} onClick={GoToHome}>Cancel</button>
           {isEditExistingJobPost ? <button className={styles.add} onClick={handleJobAdd}>Edit Job</button> : 
           <button className={styles.add} onClick={handleJobAdd}>+Add Job</button>
           }
@@ -80,6 +95,7 @@ export default function JobPost() {
       </div>
       <div className={styles.right}>
           <img src={image2} style={{height:"100vh",width:"40vw"}}/>
+          <ToastContainer/>
           <p>Recruiter add job details here</p>
       </div>
     </div>

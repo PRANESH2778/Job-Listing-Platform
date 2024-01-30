@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {toast,ToastContainer} from 'react-toastify';
 const backendUrl = 'http://localhost:2000';
 export const AddNewJob = async ({companyName,logoUrl,jobPosition,monthlySalary,jobType,RemoteOffice,headCount,location,description,about,skills,information})=>{
     try {
@@ -8,9 +9,11 @@ export const AddNewJob = async ({companyName,logoUrl,jobPosition,monthlySalary,j
         axios.defaults.headers.common["Authorization"] = token
         const response = await axios.post(reqUrl,reqPayload);
         console.log(response)
+        toast.success(response.data.message)
         return response
     } catch (error) {
         console.log(error)
+        toast.error(error.response.data.message)
     }
 }
 export const UpdateJobPost = async (jobId,{companyName,logoUrl,jobPosition,monthlySalary,jobType,RemoteOffice,headCount,location,description,about,skills,information})=>{
@@ -21,16 +24,19 @@ export const UpdateJobPost = async (jobId,{companyName,logoUrl,jobPosition,month
         axios.defaults.headers.common["Authorization"] = token
         const response = await axios.put(reqUrl,reqPayload);
         console.log(response)
+        toast.success(response.data.message)
         return response
     } catch (error) {
         console.log(error)
+        toast.error(error.response.data.message)
     }
 }
-export const getAllJobs = ({skills,jobPosition})=>{
+export const getAllJobs = async({skills,jobPosition})=>{
     try {
-        const reqUrl = `${backendUrl}/all?skill=${skills}&jobPosition=${jobPosition}`;
-        const response = axios.get(reqUrl,reqPayload)
-        console.log(response)
+        const reqUrl = `${backendUrl}/job/all?skills=${skills}&jobPosition=${jobPosition}`;
+        const response = await axios.get(reqUrl)
+        //console.log(response.data)
+        return response.data
     } catch (error) {
         console.log(error)
         //create a toast message
