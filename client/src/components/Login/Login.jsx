@@ -23,8 +23,8 @@ export default function Login() {
     }
     const response = await loginUser({...loginData})
     console.log(response.data)
-    localStorage.setItem("name",response.data.name)
-    localStorage.setItem("token",response.data.token)
+    localStorage.setItem("name",JSON.stringify(response.data.name))
+    localStorage.setItem("token",JSON.stringify(response.data.token))
     setTimeout(() => {
       navigate('/')
     }, 2000);

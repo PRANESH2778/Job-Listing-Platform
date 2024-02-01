@@ -26,8 +26,8 @@ export default function Register() {
     const response = await registerUser({...data})
     console.log(response)
     console.log(response.data.message)
-    localStorage.setItem("token",response.data.token)
-    localStorage.setItem("name",response.data.name)
+    localStorage.setItem("token",JSON.stringify(response.data.token))
+    localStorage.setItem("name",JSON.stringify(response.data.name))
     console.log(response.data.token)
     console.log(response.data.name)
     setTimeout(() => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './JobDetails.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getJobDetails } from '../../apis/job'
 import money from '../../assets/images/money.png'
 import Google from '../../assets/images/Google.png'
@@ -76,7 +76,7 @@ export default function JobDetails() {
         <p>{data.about}</p>
         <h3 style={{color:"black"}}>About the job/internship</h3>
         <p>{data.description}</p>
-        <h3 style={{color:"black"}}>Skill(s) reqUired</h3>
+        <h3 style={{color:"black"}}>Skill(s) required</h3>
         <div><p>{stringSkills}</p></div>
         <h3 style={{color:"black"}}>Additional information</h3>
         <p>{data.information}</p>
