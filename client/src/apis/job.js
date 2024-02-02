@@ -5,14 +5,15 @@ export const AddNewJob = async ({companyName,logoUrl,jobPosition,monthlySalary,j
     try {
         const reqUrl = `${backendUrl}/job/create`;
         const reqPayload = {companyName,logoUrl,jobPosition,monthlySalary,jobType,RemoteOffice,headCount,location,description,about,skills,information}
-        const token = localStorage.getItem("token")
+        const token = JSON.parse(localStorage.getItem("token"))
+        //console.log(token)
         axios.defaults.headers.common["Authorization"] = token
         const response = await axios.post(reqUrl,reqPayload);
-        console.log(response)
+        //console.log(response)
         toast.success(response.data.message)
         return response
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         toast.error(error.response.data.message)
     }
 }
@@ -20,14 +21,15 @@ export const UpdateJobPost = async (jobId,{companyName,logoUrl,jobPosition,month
     try {
         const reqUrl = `${backendUrl}/job/edit/${jobId}`;
         const reqPayload = {companyName,logoUrl,jobPosition,monthlySalary,jobType,RemoteOffice,headCount,location,description,about,skills,information}
-        const token = localStorage.getItem("token")
+        const token = JSON.parse(localStorage.getItem("token"))
+        //console.log(token)
         axios.defaults.headers.common["Authorization"] = token
         const response = await axios.put(reqUrl,reqPayload);
-        console.log(response)
+        //console.log(response)
         toast.success(response.data.message)
         return response
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         toast.error(error.response.data.message)
     }
 }
@@ -38,20 +40,19 @@ export const getAllJobs = async({skills,jobPosition})=>{
         //console.log(response.data)
         return response.data
     } catch (error) {
-        console.log(error)
-        //create a toast message
+        //console.log(error)
+        toast.error(error.response.data.message)
     }
 }
 export const getJobDetails = async(jobId)=>{
     try {
         const reqUrl = `${backendUrl}/job/job-description/${jobId}`;
         const response = await axios.get(reqUrl)
-        console.log(response)
+        //console.log(response)
         return response.data.data;
     } catch (error) {
-        console.log(error)
-        //create a toast message
-    }
+        //console.log(error)
+        toast.error(error.response.data.message)    }
 }
 export const viewAllJobs = ()=>{
     try {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './JobPost.module.css'
 import { useNavigate } from 'react-router-dom'
 import image2 from '../../assets/images/Bg2.png'
@@ -6,8 +6,6 @@ import {toast,ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from 'react-router-dom'
 import { AddNewJob, UpdateJobPost } from '../../apis/job'
-import { json } from 'react-router-dom'
-import axios from 'axios'
 export default function JobPost() {
   const navigate = useNavigate();
   const {state} = useLocation();
@@ -39,7 +37,7 @@ export default function JobPost() {
     if(isEditExistingJobPost){
       if(!state.id) return;
       const response = await UpdateJobPost(state.id,{...newJob,skills: newJob.skills.split(",")})
-      console.log(response)
+      //console.log(response)
       setTimeout(() => {
         navigate(`/job-details/${state.id}`)
       }, 2000);
@@ -47,14 +45,26 @@ export default function JobPost() {
     }
     else{
     const response = await AddNewJob({...newJob,skills: newJob.skills.split(",")})
-    console.log(response.data)
-    setTimeout(() => {
-      location.reload()
-    }, 1500);
-    
+    //console.log(response.data)
+    setNewJob({
+      companyName:"",
+      logoUrl:"",
+      jobPosition:"",
+      monthlySalary:"",
+      jobType:"",
+      RemoteOffice:"",
+      headCount:"",
+      location:"",
+      description:"",
+      about:"",
+      skills:"",
+      information:""
+    })
+    //console.log(newJob)
     }
   }
-  const GoToHome = ()=>{
+  const GoToHome = (e)=>{
+    e.preventDefault()
     navigate("/")
   }
   return (
@@ -62,34 +72,34 @@ export default function JobPost() {
       <div className={styles.left}>
         <h1 className={styles.heading}>
           {isEditExistingJobPost ? <>Edit</> : <>Add</>} job description</h1>
-        <form className={styles.jobForm}>
-          <label>Company Name</label><input type='text' placeholder='Enter your company name here' name='companyName' value={newJob?.companyName} onChange={handleChange}/><br/>
-          <label>Add logo URL</label><input type='text' placeholder='Enter the link' name='logoUrl' value={newJob?.logoUrl} onChange={handleChange}/><br/>
-          <label>Job Position</label><input type='text' placeholder='Enter job position' name='jobPosition' value={newJob?.jobPosition} onChange={handleChange}/><br/>
-          <label>Monthly salary</label><input type='text' placeholder='Enter Amount in rupees' name='monthlySalary' value={newJob?.monthlySalary} onChange={handleChange}/><br/>
-          <label>Job Type</label><select style={{width:"12vw",textAlign:"center"}} name='jobType' value={newJob?.jobType} onChange={handleChange}>
+        <form className={styles.jobForm} onSubmit={(event) => handleJobAdd(event)}>
+          <label htmlFor='Company Name'>Company Name</label><input type='text' placeholder='Enter your company name here' id='Company Name' name='companyName' value={newJob?.companyName} onChange={handleChange}/><br/>
+          <label htmlFor='Logo'>Add logo URL</label><input type='text' placeholder='Enter the link' id='Logo' name='logoUrl' value={newJob?.logoUrl} onChange={handleChange}/><br/>
+          <label htmlFor='Job Position'>Job Position</label><input type='text' placeholder='Enter job position' id='Job Position' name='jobPosition' value={newJob?.jobPosition} onChange={handleChange}/><br/>
+          <label htmlFor='Monthly salary'>Monthly salary</label><input type='text' placeholder='Enter Amount in rupees' id='Monthly salary' name='monthlySalary' value={newJob?.monthlySalary} onChange={handleChange}/><br/>
+          <label htmlFor='Job Type'>Job Type</label><select style={{width:"12vw",textAlign:"center"}}id='Job Type' name='jobType' value={newJob?.jobType} onChange={handleChange}>
               <option>Select</option>
               <option value="Full Time">Full Time</option>
               <option value="Part Time">Part Time</option>
               </select><br/>
-          <label>Remote/office</label><select style={{width:"12vw",textAlign:"center"}} name='RemoteOffice' value={newJob?.RemoteOffice} onChange={handleChange}>
+          <label htmlFor='Remote/office'>Remote/office</label><select style={{width:"12vw",textAlign:"center"}} id='Remote/office' name='RemoteOffice' value={newJob?.RemoteOffice} onChange={handleChange}>
               <option>Select</option>
               <option value="Remote">Remote</option>
               <option value="Office">Office</option>
               </select><br/>
-          <label>Head Count</label><input type='text' placeholder='Enter the Head Count in number' name='headCount' value={newJob?.headCount} onChange={handleChange}/><br/>
-          <label>Location</label><input type='text' placeholder='Enter Location' name='location' value={newJob?.location} onChange={handleChange}/><br/>
+          <label htmlFor='Head Count'>Head Count</label><input type='text' placeholder='Enter the Head Count in number' id='Head Count' name='headCount' value={newJob?.headCount} onChange={handleChange}/><br/>
+          <label htmlFor='Location'>Location</label><input type='text' placeholder='Enter Location' id='Location' name='location' value={newJob?.location} onChange={handleChange}/><br/>
           <div style={{display:"flex"}}>
-            <label>Job Description</label><textarea placeholder='Type the job description' style={{height:"10vh",marginTop:"12px"}} name='description' value={newJob?.description} onChange={handleChange}></textarea><br/>
+            <label htmlFor='Job Description'>Job Description</label><textarea placeholder='Type the job description' style={{height:"10vh",marginTop:"12px"}}id='Job Description' name='description' value={newJob?.description} onChange={handleChange}></textarea><br/>
           </div>
           <div style={{display:"flex"}}>
-            <label>About Company</label><textarea placeholder='Type about your company' style={{height:"10vh",marginTop:"12px"}} name='about' value={newJob?.about} onChange={handleChange}></textarea><br/><br/>
+            <label htmlFor='About Company'>About Company</label><textarea placeholder='Type about your company' style={{height:"10vh",marginTop:"12px"}}id='About Company' name='about' value={newJob?.about} onChange={handleChange}></textarea><br/><br/>
           </div>
-          <label>Skills Required</label><input type='text' placeholder='Enter the must have skills' name='skills' value={newJob?.skills} onChange={handleChange}/><br/>
-          <label>Information</label><input type='text' placeholder='Enter the additional information' name='information' value={newJob?.information} onChange={handleChange}/><br/>
+          <label htmlFor='Skills Required'>Skills Required</label><input type='text' placeholder='Enter the must have skills' id='Skills Required' name='skills' value={newJob?.skills} onChange={handleChange}/><br/>
+          <label htmlFor='information'>Information</label><input type='text' placeholder='Enter the additional information' id='information' name='information' value={newJob?.information} onChange={handleChange}/><br/>
           <button className={styles.cancel} onClick={GoToHome}>Cancel</button>
-          {isEditExistingJobPost ? <button className={styles.add} onClick={handleJobAdd}>Edit Job</button> : 
-          <button className={styles.add} onClick={handleJobAdd}>+Add Job</button>
+          {isEditExistingJobPost ? <button className={styles.add} type='submit'>Edit Job</button> : 
+          <button className={styles.add} type='submit'>+Add Job</button>
           }
         </form>
       </div>

@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getAllJobs, viewAllJobs } from "../../apis/job";
 import { DEFAULT_SKILLS } from "../../utils/constant";
 import styles from "./Home.module.css";
-import recruiter from "../../assets/images/recruiter.png";
+import profile1 from "../../assets/images/profile1.jpg";
+import profile2 from "../../assets/images/profile2.jpg";
 import image3 from "../../assets/images/search.png";
 import logo from "../../assets/images/logo1.png";
 import flag from "../../assets/images/flag.png";
@@ -44,7 +45,7 @@ export default function Home() {
     if (!selectedSkill.length) {
       setSkills([...skills, e.target.value]);
     }
-    console.log(skills);
+    //console.log(skills);
   };
 
   const removeSkill = (index) => {
@@ -64,30 +65,27 @@ export default function Home() {
   const showAllJobs = async ()=>{
     const response = await viewAllJobs()
     setJobDetails(response.data)
-    console.log(response)
+    //console.log(response)
   }
   const fetchAllJobs = async () => {
     const reqPayload = {
       skills: skills.join(","),
       jobPosition: search?.trim(),
     };
-    console.log(reqPayload);
+    //console.log(reqPayload);
     const result = await getAllJobs(reqPayload);
-    console.log(result);
+    //console.log(result);
     setJobDetails(result);
     //console.log(jobDetails)
   };
 
   const userLogged = () => {
-    setUserName(localStorage.getItem("name"));
+    setUserName(JSON.parse(localStorage.getItem("name")));
   };
-  console.log(jobDetails);
+  //console.log(jobDetails);
   const handleAddJob = () => {
     navigate("/job-post");
   };
-  const handleViewDetails = ()=>{
-
-  }
   const LogOut = () => {
     const removeItem = ["name", "token"];
     removeItem.forEach((item) => {
@@ -114,10 +112,10 @@ export default function Home() {
             </p>
             <p className={styles.name}>Hello {userName}</p>
             <img
-              src={recruiter}
+              src={profile2}
               height="30px"
               width="30px"
-              style={{ position: "absolute", right: "10rem", top: "2.5rem" }}
+              style={{ position: "absolute", right: "10rem", top: "2.5rem",borderRadius:"50%" }}
             />
           </div>
         ) : (
@@ -142,7 +140,7 @@ export default function Home() {
           />
           <img src={image3} alt="Search Icon" />
           <div className={styles.searchDiv}>
-            <select onChange={selectSkills}>
+            <select onChange={selectSkills} id="skills">
               <option value="">Skills</option>
               {DEFAULT_SKILLS.map((skill) => (
                 <option key={skill} value={skill}>
@@ -178,7 +176,7 @@ export default function Home() {
         </div>
         <div className={styles.jobDisplay}>
           {jobDetails.map((jobs) => (
-            <div className={styles.jobList}>
+            <div key={jobs._id}className={styles.jobList}>
               <img
                 src={jobs.logoUrl}
                 style={{
@@ -206,18 +204,18 @@ export default function Home() {
                 </p>
               </div>
               <div className={styles.jobDetail2}>
-                <div className={styles.skillSet}>
-                  {jobs.skills.map((skill) => (
-                    <div className={styles.jobSkills}>{skill}</div>
+                <div className={styles.skillSet} >
+                  {jobs.skills.map((skill,index) => (
+                    <div key={index} className={styles.jobSkills}>{skill}</div>
                   ))}
                 </div>
                 {userName ? (
                   <div className={styles.buttons}>
-                    <button className={styles.editBtn} onClick={()=>{navigate("/job-post",{state:{id:jobs._id,data:jobs,edit:true}})}}>Edit Jobs</button>
+                    <button className={styles.editBtn} onClick={()=>{navigate("/job-post",{state:{id:jobs._id,data:jobs,edit:true}})}}>Edit Job</button>
                     <button className={styles.addBtn} onClick={()=>{navigate(`/job-details/${jobs._id}`)}}>View Details</button>
                   </div>
                 ) : (
-                  <button className={styles.ViewBtn} onClick={()=>{navigate(`/job-details/${jobs.id}`)}}>View Details</button>
+                  <button className={styles.ViewBtn} onClick={()=>{navigate(`/job-details/${jobs._id}`)}}>View Details</button>
                 )}
               </div>
             </div>

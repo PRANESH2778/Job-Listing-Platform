@@ -1,7 +1,9 @@
-import React from 'react'
-import JobPost from '../../components/JobPost/JobPost'
+import React from "react";
+import JobPost from "../../components/JobPost/JobPost";
 export default function JobPostPage() {
   return (
-    <div><JobPost/></div>
-  )
+    <div>
+      <JobPost />
+    </div>
+  );
 }
