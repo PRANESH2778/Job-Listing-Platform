@@ -44,6 +44,7 @@ const jobSchema = new mongoose.Schema({
   },
   skills: {
     type: [String],
+
     required: true,
   },
   information: {
@@ -58,5 +59,10 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+jobSchema.pre('save', function(next) {
+  // Convert each skill to lowercase
+  this.skills = this.skills.map(skill => skill.toLowerCase());
+  next();
 });
 module.exports = mongoose.model("Job", jobSchema);

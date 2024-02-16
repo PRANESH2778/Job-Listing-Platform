@@ -19,17 +19,26 @@ export default function Home() {
   const [userName, setUserName] = useState(false);
   const [search, setSearch] = useState();
   const [jobDetails, setJobDetails] = useState([]);
+  const [isLoading,setIsLoading] = useState(true)
+  const [isJobPresent,setIsJobPresent] = useState(true)
   const [allSkills, setAllSkills] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
+    showAllJobs();
     fetchAllJobs();
     userLogged();
-  }, [skills]);
+  },[],[skills]);
+  useEffect(()=>{
+    showAllJobs();
+  },[])
   useEffect(()=>{
     showAllJobs()
-  },[skills])
+  },[search])
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    if(search.length === 0 ){
+      showAllJobs()
+    }
   };
   const handleKeyDown = (e) => {
     if (!search?.trim()) {
@@ -55,6 +64,8 @@ export default function Home() {
   };
   const clearSkills = () => {
     setSkills([]);
+    setSearch("")
+    showAllJobs()
   };
   const GoToLogin = () => {
     navigate("/login");
@@ -63,20 +74,34 @@ export default function Home() {
     navigate("/register");
   };
   const showAllJobs = async ()=>{
-    const response = await viewAllJobs()
-    setJobDetails(response.data)
-    //console.log(response)
+      const response = await viewAllJobs()
+      setJobDetails(response.data)
+      setIsLoading(false)
+      setIsJobPresent(true);
+      //console.log(response)
   }
   const fetchAllJobs = async () => {
-    const reqPayload = {
-      skills: skills.join(","),
-      jobPosition: search?.trim(),
-    };
-    //console.log(reqPayload);
-    const result = await getAllJobs(reqPayload);
-    //console.log(result);
-    setJobDetails(result);
-    //console.log(jobDetails)
+      const reqPayload = {
+        skills: skills.join(",").toLowerCase(),
+        jobPosition: search?.trim(),
+      }
+      if(!search){
+        showAllJobs()
+      }else{
+        console.log(reqPayload);
+        const result = await getAllJobs(reqPayload);
+        console.log(result);
+        setJobDetails(result);
+        setIsLoading(false)
+        if(result.length === 0){
+          setIsJobPresent(false)
+        }
+        else{
+          setIsJobPresent(true)
+        }
+      }
+      //console.log(jobDetails)
+ 
   };
 
   const userLogged = () => {
@@ -94,7 +119,7 @@ export default function Home() {
 
     toast.success("Logged Out Successfully!");
     setTimeout(() => {
-      navigate("/register");
+      navigate("/login");
     }, 2000);
   };
 
@@ -133,7 +158,7 @@ export default function Home() {
         <div className={styles.filter}>
           <input
             type="text"
-            placeholder="Type any job title"
+            placeholder="Type any job title and press enter"
             name="search"
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
@@ -175,8 +200,9 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.jobDisplay}>
-          {jobDetails.map((jobs) => (
-            <div key={jobs._id}className={styles.jobList}>
+          {isLoading?(<p style={{position:"absolute",top:"30rem",left:"43rem",fontSize:"2rem"}}>Loading...</p>):!isJobPresent? (<p style={{position:"absolute",top:"30rem",left:"30rem",fontSize:"2rem"}}>No jobs present for the selected skill</p>):(
+            jobDetails.map((jobs) => (
+              <div key={jobs._id}className={styles.jobList}>
               <img
                 src={jobs.logoUrl}
                 style={{
@@ -206,21 +232,21 @@ export default function Home() {
               <div className={styles.jobDetail2}>
                 <div className={styles.skillSet} >
                   {jobs.skills.map((skill,index) => (
-                    <div key={index} className={styles.jobSkills}>{skill}</div>
+                    <div key={index} className={styles.jobSkills}>{skill.toUpperCase()}</div>
                   ))}
                 </div>
                 {userName ? (
                   <div className={styles.buttons}>
                     <button className={styles.editBtn} onClick={()=>{navigate("/job-post",{state:{id:jobs._id,data:jobs,edit:true}})}}>Edit Job</button>
-                    <button className={styles.addBtn} onClick={()=>{navigate(`/job-details/${jobs._id}`)}}>View Details</button>
+                    <button className={styles.addBtn} onClick={()=>{navigate(`/job-details/${jobs._id}`)}} >View Details</button>
                   </div>
                 ) : (
                   <button className={styles.ViewBtn} onClick={()=>{navigate(`/job-details/${jobs._id}`)}}>View Details</button>
                 )}
               </div>
             </div>
-          ))}
-        </div>
+          )))}
+        </div> 
       </div>
       <ToastContainer />
     </div>

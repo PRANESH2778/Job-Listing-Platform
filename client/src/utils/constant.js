@@ -1,6 +1,6 @@
 export const DEFAULT_SKILLS = [
   "Html",
-  "CSS",
+  "Css",
   "JavaScript",
   "ReactJs",
   "NodeJs",

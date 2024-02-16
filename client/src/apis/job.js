@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {toast,ToastContainer} from 'react-toastify';
-const backendUrl = 'http://localhost:2000';
+const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 export const AddNewJob = async ({companyName,logoUrl,jobPosition,monthlySalary,jobType,RemoteOffice,headCount,location,description,about,skills,information})=>{
     try {
         const reqUrl = `${backendUrl}/job/create`;

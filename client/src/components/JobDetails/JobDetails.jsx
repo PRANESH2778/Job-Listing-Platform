@@ -133,7 +133,7 @@ export default function JobDetails() {
                 <p>{data.description}</p>
                 <h3 style={{ color: "black" }}>Skill(s) required</h3>
                 <div>
-                  <p>{stringSkills}</p>
+                  <p>{stringSkills.toUpperCase()}</p>
                 </div>
                 <h3 style={{ color: "black" }}>Additional information</h3>
                 <p>{data.information}</p>
