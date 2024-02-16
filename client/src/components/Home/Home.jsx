@@ -88,9 +88,9 @@ export default function Home() {
       if(!search){
         showAllJobs()
       }else{
-        console.log(reqPayload);
+        //console.log(reqPayload);
         const result = await getAllJobs(reqPayload);
-        console.log(result);
+        //console.log(result);
         setJobDetails(result);
         setIsLoading(false)
         if(result.length === 0){
